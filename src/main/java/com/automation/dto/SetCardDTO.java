@@ -6,11 +6,8 @@ import lombok.Getter;
 @Getter
 @Builder
 public class SetCardDTO {
-
-    private int form;
-
+    private int shading;
+    private int symbol;
     private int color;
-
-    private int shape;
-
+    private int number;
 }

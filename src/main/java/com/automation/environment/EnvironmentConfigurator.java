@@ -9,7 +9,7 @@ import java.util.Properties;
 
 public class EnvironmentConfigurator {
 
-    protected static final Logger LOGGER = LogManager.getLogger(EnvironmentConfigurator.class);
+    protected static final Logger Logger.out = LogManager.getLogger(EnvironmentConfigurator.class);
     private static volatile EnvironmentConfigurator environmentConfigurator;
     private static Properties properties = new Properties();
 
@@ -20,7 +20,7 @@ public class EnvironmentConfigurator {
             properties.load(i18nStream);
             i18nStream.close();
         } catch (IOException e) {
-            LOGGER.error("", e);
+            Logger.out.error("", e);
         }
     }
 
@@ -33,7 +33,7 @@ public class EnvironmentConfigurator {
                     try {
                         environmentConfigurator = sysProps = new EnvironmentConfigurator();
                     } catch (IOException e) {
-                        LOGGER.error("", e);
+                        Logger.out.error("", e);
                     }
                 }
             }

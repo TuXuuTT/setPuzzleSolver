@@ -16,7 +16,7 @@ import static java.lang.Thread.currentThread;
 
 public class BrowserClient {
 
-    protected static final Logger LOGGER = LogManager.getLogger(BrowserClient.class);
+    protected static final Logger Logger.out = LogManager.getLogger(BrowserClient.class);
     protected static EnvironmentConfigurator environmentConfigurator;
     private RemoteWebDriver webDriver;
 
@@ -34,7 +34,7 @@ public class BrowserClient {
                         new Dimension((int) screenSize.getWidth(), (int) screenSize.getHeight());
                 wd.manage().window().setSize(maximizedScreenSize);
             } catch (HeadlessException e) {
-                LOGGER.warn("GraphicsEnvironment.isHeadless(), can't maximize screen by getting actual resolution");
+                Logger.out.warn("GraphicsEnvironment.isHeadless(), can't maximize screen by getting actual resolution");
             }
         } else {
             wd.manage().window().maximize();
@@ -68,7 +68,7 @@ public class BrowserClient {
                 chromeDriverName = "chromedriver.exe";
             } else chromeDriverName = "chromedriver";
             String chromedriverPath = currentThread().getContextClassLoader().getResource(chromeDriverName).getPath();
-            LOGGER.warn("webdriver.chrome.driver is not set. will now try to use [" + chromedriverPath + "]");
+            Logger.out.warn("webdriver.chrome.driver is not set. will now try to use [" + chromedriverPath + "]");
             System.setProperty("webdriver.chrome.driver", chromedriverPath);
         }
         return this.webDriver = new ChromeDriver();

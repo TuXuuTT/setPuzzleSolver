@@ -2,11 +2,10 @@ package com.automation;
 
 import com.automation.browserClient.BrowserClient;
 import com.automation.environment.EnvironmentConfigurator;
+import com.automation.logger.Logger;
 import cucumber.api.testng.AbstractTestNGCucumberTests;
 import io.qameta.allure.Attachment;
 import lombok.Getter;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 import org.openqa.selenium.OutputType;
 import org.openqa.selenium.TakesScreenshot;
 import org.openqa.selenium.remote.RemoteWebDriver;
@@ -25,15 +24,13 @@ public abstract class BasicTest extends AbstractTestNGCucumberTests implements I
     @Getter
     private static RemoteWebDriver wd;
 
-    protected final Logger LOGGER = LogManager.getLogger(this);
-
     @BeforeClass(alwaysRun = true)
     public void startUp() {
         try {
             wd = new BrowserClient().getDriver(EnvironmentConfigurator.getInstance().getBrowserClient());
         } catch (MalformedURLException e) {
             e.printStackTrace();
-            LOGGER.error(e);
+            Logger.out.error("Error during driver start up", e);
         }
     }
 
@@ -62,7 +59,7 @@ public abstract class BasicTest extends AbstractTestNGCucumberTests implements I
 
     @Attachment(value = "Failure in method {0}", type = "image/jpeg")
     private byte[] takeScreenShot(String failureReason) throws IOException {
-        LOGGER.info(String.format("Taking screenshot due to fail in method %s", failureReason));
+        Logger.out.info(String.format("Taking screenshot due to fail in method %s", failureReason));
         return ((TakesScreenshot) wd).getScreenshotAs(OutputType.BYTES);
     }
 }

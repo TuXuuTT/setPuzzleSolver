@@ -1,9 +1,8 @@
 package pageobjects;
 
 import com.automation.environment.EnvironmentConfigurator;
+import com.automation.logger.Logger;
 import io.qameta.allure.Step;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 import org.openqa.selenium.By;
 import org.openqa.selenium.Dimension;
 import org.openqa.selenium.JavascriptExecutor;
@@ -25,7 +24,6 @@ import java.time.Duration;
 public abstract class BasicPage {
     public static final int WAIT_MEDIUM_SECONDS = 30;
     public static final int POLLING_INTERVAL_MILLIS = 750;
-    protected final Logger LOGGER = LogManager.getLogger(this);
     private final WebDriver wd;
     private Wait<WebDriver> visibilityWait;
     private Wait<WebDriver> invisibilityWait;
@@ -72,7 +70,7 @@ public abstract class BasicPage {
     }
 
     public void loadUrl(String url) {
-        LOGGER.info("Loading page: {}", url);
+        Logger.out.info("Loading page: {}", url);
         wd.get(url);
     }
 
@@ -85,7 +83,7 @@ public abstract class BasicPage {
         try {
             Thread.sleep(delayInMilliseconds);
         } catch (InterruptedException e) {
-            LOGGER.warn("Wait a bit method was interrupted.", e);
+            Logger.out.warn("Wait a bit method was interrupted.", e);
         }
     }
 
@@ -113,7 +111,7 @@ public abstract class BasicPage {
         try {
             visibilityWait.until(ExpectedConditions.visibilityOf(webElement));
         } catch (NoSuchElementException nse) {
-            LOGGER.info("Try to wait little more (wait for visibility)");
+            Logger.out.info("Try to wait little more (wait for visibility)");
             nse.printStackTrace();
             throw nse;
         }
@@ -124,7 +122,7 @@ public abstract class BasicPage {
         try {
             invisibilityWait.until(ExpectedConditions.invisibilityOfElementLocated(locator));
         } catch (NoSuchElementException e) {
-            LOGGER.info("Try to wait little more (wait for invisibility)");
+            Logger.out.info("Try to wait little more (wait for invisibility)");
             e.printStackTrace();
         }
     }
@@ -134,7 +132,7 @@ public abstract class BasicPage {
         try {
             visibilityWait.until(ExpectedConditions.elementToBeClickable(webElement));
         } catch (NoSuchElementException nse) {
-            LOGGER.info("Try to wait little more (wait for clickable)");
+            Logger.out.info("Try to wait little more (wait for clickable)");
             nse.printStackTrace();
         }
         return webElement;

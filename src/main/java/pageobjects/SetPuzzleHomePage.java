@@ -1,19 +1,21 @@
 package pageobjects;
 
+import lombok.Getter;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
-import pageobjects.blockContainers.BlackBarContainer;
 
+import java.util.List;
+
+@Getter
 public class SetPuzzleHomePage extends BasicPage {
 
-    @FindBy(css = "div.black_bar")
-    private BlackBarContainer blackBarContainer;
+    @FindBy(css = "div.set-messages")
+    private WebElement setMessageLabel;
 
-    @FindBy(css = "div#SetPuzzleOuterContainer.won")
-    private WebElement redWinBackgroundLabel;
-
+    @FindBy(css = "div.set-card-td")
+    private List<WebElement> allCardsList;
 
     private By tryMeButtonLocator = By.cssSelector("#tryMe");
 

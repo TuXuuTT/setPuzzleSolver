@@ -9,11 +9,11 @@ import java.util.stream.Collectors;
 
 public final class OSUtils {
 
-    private static final Logger LOGGER = LogManager.getLogger(OSUtils.class);
+    private static final Logger Logger.out = LogManager.getLogger(OSUtils.class);
 
     private static boolean runCommand(String... cmds) throws IOException, InterruptedException {
-        if (LOGGER.isDebugEnabled()) {
-            LOGGER.debug("Running command: '{}'", Arrays.stream(cmds).collect(Collectors.joining(" ")));
+        if (Logger.out.isDebugEnabled()) {
+            Logger.out.debug("Running command: '{}'", Arrays.stream(cmds).collect(Collectors.joining(" ")));
         }
         return Runtime.getRuntime().exec(cmds).waitFor() == 0;
     }
@@ -24,13 +24,13 @@ public final class OSUtils {
 
     public static void killProcess(String name) {
         if (!isWindows()) {
-            LOGGER.debug("Method is not implemented for this OS");
+            Logger.out.debug("Method is not implemented for this OS");
             return;
         }
         try {
             runCommand("taskkill", "/F", "/T", "/IM", name);
         } catch (IOException | InterruptedException e) {
-            LOGGER.trace(e.getMessage(), e);
+            Logger.out.trace(e.getMessage(), e);
         }
     }
 }
