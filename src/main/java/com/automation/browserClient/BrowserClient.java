@@ -1,8 +1,7 @@
 package com.automation.browserClient;
 
 import com.automation.environment.EnvironmentConfigurator;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import com.automation.logger.Logger;
 import org.openqa.selenium.Dimension;
 import org.openqa.selenium.Point;
 import org.openqa.selenium.WebDriver;
@@ -16,7 +15,6 @@ import static java.lang.Thread.currentThread;
 
 public class BrowserClient {
 
-    protected static final Logger Logger.out = LogManager.getLogger(BrowserClient.class);
     protected static EnvironmentConfigurator environmentConfigurator;
     private RemoteWebDriver webDriver;
 

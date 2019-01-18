@@ -101,13 +101,13 @@ public abstract class BasicPage {
         });
     }
 
-    protected void sendKeys(final WebElement webElement, String text) {
+    public void sendKeys(final WebElement webElement, String text) {
         waitForClickable(webElement);
         webElement.clear();
         webElement.sendKeys(text);
     }
 
-    protected WebElement waitForVisibility(WebElement webElement) {
+    public WebElement waitForVisibility(WebElement webElement) {
         try {
             visibilityWait.until(ExpectedConditions.visibilityOf(webElement));
         } catch (NoSuchElementException nse) {
@@ -118,7 +118,17 @@ public abstract class BasicPage {
         return webElement;
     }
 
-    protected void waitForInvisibility(final By locator) {
+    public void waitForTextToBePresentIn(By webElement, String text) {
+        try {
+            visibilityWait.until(ExpectedConditions.textToBePresentInElementLocated(webElement, text));
+        } catch (NoSuchElementException nse) {
+            Logger.out.info("Try to wait little more (wait for visibility)");
+            nse.printStackTrace();
+            throw nse;
+        }
+    }
+
+    public void waitForInvisibility(final By locator) {
         try {
             invisibilityWait.until(ExpectedConditions.invisibilityOfElementLocated(locator));
         } catch (NoSuchElementException e) {
@@ -127,7 +137,7 @@ public abstract class BasicPage {
         }
     }
 
-    protected WebElement waitForClickable(WebElement webElement) {
+    public WebElement waitForClickable(WebElement webElement) {
         waitForVisibility(webElement);
         try {
             visibilityWait.until(ExpectedConditions.elementToBeClickable(webElement));
@@ -138,7 +148,7 @@ public abstract class BasicPage {
         return webElement;
     }
 
-    protected boolean click(WebElement webElement) {
+    public boolean click(WebElement webElement) {
         boolean result = false;
         int attempts = 0;
         while (attempts < 3) {
@@ -153,7 +163,7 @@ public abstract class BasicPage {
         return result;
     }
 
-    protected boolean isElementPresent(final WebElement we) {
+    public boolean isElementPresent(final WebElement we) {
         try {
             return we.isDisplayed();
         } catch (Exception e) {
@@ -161,18 +171,18 @@ public abstract class BasicPage {
         }
     }
 
-    protected void moveMouseCursorToWebElement(WebElement webElement) {
+    public void moveMouseCursorToWebElement(WebElement webElement) {
 //        scrollToElement(webElement);
         waitForClickable(webElement);
         Actions action = new Actions(getWebDriverCurrent());
         action.moveToElement(webElement).perform();
     }
 
-    protected Object executeJS(final String script, final Object... params) {
+    public Object executeJS(final String script, final Object... params) {
         return ((JavascriptExecutor) getWebDriverCurrent()).executeScript(script, params);
     }
 
-    protected WebElement scrollToElement(WebElement we) {
+    public WebElement scrollToElement(WebElement we) {
         executeJS("arguments[0].scrollIntoView(true);", we);
         return we;
     }
@@ -183,7 +193,7 @@ public abstract class BasicPage {
         getWebDriverCurrent().navigate().refresh();
     }
 
-    protected void waitForElementStopMoving(WebElement element) {
+    public void waitForElementStopMoving(WebElement element) {
         Point a;
         Point b;
         do {

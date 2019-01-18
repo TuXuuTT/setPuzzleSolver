@@ -1,7 +1,6 @@
 package com.automation.environment;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import com.automation.logger.Logger;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -9,7 +8,6 @@ import java.util.Properties;
 
 public class EnvironmentConfigurator {
 
-    protected static final Logger Logger.out = LogManager.getLogger(EnvironmentConfigurator.class);
     private static volatile EnvironmentConfigurator environmentConfigurator;
     private static Properties properties = new Properties();
 

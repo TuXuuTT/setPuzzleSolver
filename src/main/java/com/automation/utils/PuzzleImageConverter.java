@@ -2,10 +2,14 @@ package com.automation.utils;
 
 import com.automation.dto.SetCardDTO;
 import com.automation.logger.Logger;
+import org.testng.annotations.Test;
 
-public abstract class PuzzleImageConverter {
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.stream.Collectors;
 
-    private static SetCardDTO[] cards;
+public class PuzzleImageConverter {
 
     private PuzzleImageConverter() {
     }
@@ -14,7 +18,6 @@ public abstract class PuzzleImageConverter {
         if ((imageNumber < 1) || (imageNumber > 81)) {
             throw new IllegalArgumentException("Tried to create card with imageNumber %s which is out of range");
         }
-
         imageNumber--;
         return SetCardDTO.builder()
                 .shading((int) Math.floor(((imageNumber % 81) / 27) + 1))
@@ -24,40 +27,90 @@ public abstract class PuzzleImageConverter {
                 .build();
     }
 
-    private boolean isFeatureValid(int f1, int f2, int f3) {
-        return (((f1 == f2) && (f1 == f3)) || ((f1 + f2 + f3) == 6));
+    private static int getImageNumberFromCard(SetCardDTO card) {
+        int imageNumber;
+        imageNumber = (card.getShading() - 1) * 27;
+        imageNumber += (card.getSymbol() - 1) * 9;
+        imageNumber += (card.getColor() - 1) * 3;
+        imageNumber += card.getNumber();
+        return imageNumber;
     }
 
-    private boolean isValidSet() {
-        int reason = VALID_SET;
-        int base = 0;
-        int product = 0;
-        Logger.out.info(this);
-        if (cards[0] == null || cards[1] == null || cards[2] == null) {
-            return INVALID_CARDS;
-        }
-        if (isFeatureValid(cards[0].getNumber(), cards[1].getNumber(), cards[2].getNumber())) {
-            Logger.out.info("number valid");
-            if (isFeatureValid(cards[0].getSymbol(), cards[1].getSymbol(), cards[2].getSymbol())) {
-                Logger.out.info("symbol valid");
-                if (isFeatureValid(cards[0].getShading(), cards[1].getShading(), cards[2].getShading())) {
-                    Logger.out.info("shading valid");
-                    if (isFeatureValid(cards[0].getColor(), cards[1].getColor(), cards[2].getColor())) {
-                        Logger.out.info("color valid");
-                        // Valid Set
-                        Logger.out.info("its valid");
-                    } else {
-                        base = COLOR;
-                        product = cards[0].color * cards[1].color * cards[2].color;
+    private static boolean isAttributeValid(int cardAttribute1, int cardAttribute2, int cardAttribute3) {
+        return (((cardAttribute1 == cardAttribute2) && (cardAttribute1 == cardAttribute3)) || ((cardAttribute1 + cardAttribute2 + cardAttribute3) == 6));
+    }
+
+    private static boolean isSetValid(SetCardDTO[] threeCardsSet) {
+        boolean result = false;
+        if (isAttributeValid(threeCardsSet[0].getNumber(), threeCardsSet[1].getNumber(), threeCardsSet[2].getNumber())) {
+            Logger.out.debug(String.format("Number in set %s is valid", Arrays.toString(threeCardsSet)));
+            if (isAttributeValid(threeCardsSet[0].getSymbol(), threeCardsSet[1].getSymbol(), threeCardsSet[2].getSymbol())) {
+                Logger.out.debug(String.format("Symbol in set %s is valid", Arrays.toString(threeCardsSet)));
+                if (isAttributeValid(threeCardsSet[0].getShading(), threeCardsSet[1].getShading(), threeCardsSet[2].getShading())) {
+                    Logger.out.debug(String.format("Shading in set %s is valid", Arrays.toString(threeCardsSet)));
+                    if (isAttributeValid(threeCardsSet[0].getColor(), threeCardsSet[1].getColor(), threeCardsSet[2].getColor())) {
+                        Logger.out.debug(String.format("Color in set %s is valid", Arrays.toString(threeCardsSet)));
+                        Logger.out.info(String.format("Set %s is valid", Arrays.toString(threeCardsSet)));
+                        result = true;
                     }
-                } else {
-                    base = SHADING;
-                    product = cards[0].shading * cards[1].shading * cards[2].shading;
                 }
-            } else {
-                base = SYMBOL;
-                product = cards[0].symbol * cards[1].symbol * cards[2].symbol;
             }
         }
+        return result;
+    }
+
+    private static List<SetCardDTO[]> findAllSets(SetCardDTO[] fullSetOfCards) {
+        List<SetCardDTO[]> result = new ArrayList<>();
+        for (int i = 0; i < fullSetOfCards.length - 2; i++) {
+            for (int j = i + 1; j < fullSetOfCards.length - 1; j++) {
+                for (int k = j + 1; k < fullSetOfCards.length; k++) {
+                    SetCardDTO[] threeCardsSet = new SetCardDTO[3];
+                    threeCardsSet[0] = fullSetOfCards[i];
+                    threeCardsSet[1] = fullSetOfCards[j];
+                    threeCardsSet[2] = fullSetOfCards[k];
+                    if (isSetValid(threeCardsSet)) {
+                        result.add(threeCardsSet);
+                    }
+                }
+            }
+        }
+        return result;
+    }
+
+    public static List<int[]> findAllValidSetsOfImageNumbers(int[] imageNumbers) {
+        List<SetCardDTO> fullListOfCards = new ArrayList<>();
+        Arrays.stream(imageNumbers).forEach(number -> fullListOfCards.add(getCardFromImageNumber(number)));
+
+        return findAllSets(fullListOfCards.toArray(new SetCardDTO[0])).stream()
+                .map(setCardDTOS -> Arrays.stream(setCardDTOS)
+                        .mapToInt(PuzzleImageConverter::getImageNumberFromCard).toArray())
+                .peek(set -> Logger.out.info(Arrays.toString(set)))
+                .collect(Collectors.toList());
+    }
+//////////////////////////////////////////////////////////////////////////////////////////////////
+
+    @Test
+    public void checkDeck() {
+        int[] imageNumbers = {8, 23, 7, 31, 13, 55, 80, 6, 59, 1, 11, 24}; //TODO remove. debuggin purposes only
+        List<SetCardDTO> fullListOfCards = new ArrayList<>();
+        Arrays.stream(imageNumbers).forEach(number -> fullListOfCards.add(getCardFromImageNumber(number)));
+
+
+        List<SetCardDTO[]> setOfCards = findAllSets(fullListOfCards.toArray(new SetCardDTO[0]));
+        List<int[]> setOfImages = findAllValidSetsOfImageNumbers(imageNumbers);
+
+        setOfImages.forEach(set -> Logger.out.info(Arrays.toString(set)));
     }
 }
+//
+//            Symbol.SWIGGLE = 1;
+//            Symbol.DIAMOND = 2;
+//            Symbol.OVAL    = 3;
+//
+//            Color.RED = 1;
+//            Color.PURPLE = 2;
+//            Color.GREEN = 3;
+//
+//            Shape.SOLID = 1;
+//            Shape.LINED = 2;
+//            Shape.EMPTY = 3;

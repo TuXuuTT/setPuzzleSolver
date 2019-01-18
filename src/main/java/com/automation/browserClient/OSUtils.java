@@ -1,7 +1,6 @@
 package com.automation.browserClient;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import com.automation.logger.Logger;
 
 import java.io.IOException;
 import java.util.Arrays;
@@ -9,7 +8,6 @@ import java.util.stream.Collectors;
 
 public final class OSUtils {
 
-    private static final Logger Logger.out = LogManager.getLogger(OSUtils.class);
 
     private static boolean runCommand(String... cmds) throws IOException, InterruptedException {
         if (Logger.out.isDebugEnabled()) {

@@ -11,29 +11,14 @@ import java.util.List;
 @Getter
 public class SetPuzzleHomePage extends BasicPage {
 
-    @FindBy(css = "div.set-messages")
-    private WebElement setMessageLabel;
+    private By setMessageLabelLocator = By.cssSelector("div.set-messages");
+//    @FindBy(css = "div.set-card-td")
+//    private List<WebElement> allCardsList;
 
-    @FindBy(css = "div.set-card-td")
-    private List<WebElement> allCardsList;
-
-    private By tryMeButtonLocator = By.cssSelector("#tryMe");
+    @FindBy(css = "div.set-card-td img")
+    private List<WebElement> allCardsImagesList;
 
     public SetPuzzleHomePage(WebDriver wd) {
         super(wd);
     }
-
-//    public void verifySlotMachineDisplayed() {
-//        blackBarContainer.verifySlotMachineDisplayed();
-//    }
-//
-//    public int getCurrentBet() {
-//        return overallSlotMachinesContainer.getCurrentlyDisplayedBet();
-//    }
-//
-//    public void clickSpin() {
-//        overallSlotMachinesContainer.spin();
-//    }
-
-
 }
