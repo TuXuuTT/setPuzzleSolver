@@ -2,7 +2,6 @@ package com.automation.utils;
 
 import com.automation.dto.SetCardDTO;
 import com.automation.logger.Logger;
-import org.testng.annotations.Test;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -77,7 +76,7 @@ public class PuzzleImageConverter {
         return result;
     }
 
-    public static List<int[]> findAllValidSetsOfImageNumbers(int[] imageNumbers) {
+    public static List<int[]> getAllValidSetsAsImageNumbers(int[] imageNumbers) {
         List<SetCardDTO> fullListOfCards = new ArrayList<>();
         Arrays.stream(imageNumbers).forEach(number -> fullListOfCards.add(getCardFromImageNumber(number)));
 
@@ -86,20 +85,6 @@ public class PuzzleImageConverter {
                         .mapToInt(PuzzleImageConverter::getImageNumberFromCard).toArray())
                 .peek(set -> Logger.out.info(Arrays.toString(set)))
                 .collect(Collectors.toList());
-    }
-//////////////////////////////////////////////////////////////////////////////////////////////////
-
-    @Test
-    public void checkDeck() {
-        int[] imageNumbers = {8, 23, 7, 31, 13, 55, 80, 6, 59, 1, 11, 24}; //TODO remove. debuggin purposes only
-        List<SetCardDTO> fullListOfCards = new ArrayList<>();
-        Arrays.stream(imageNumbers).forEach(number -> fullListOfCards.add(getCardFromImageNumber(number)));
-
-
-        List<SetCardDTO[]> setOfCards = findAllSets(fullListOfCards.toArray(new SetCardDTO[0]));
-        List<int[]> setOfImages = findAllValidSetsOfImageNumbers(imageNumbers);
-
-        setOfImages.forEach(set -> Logger.out.info(Arrays.toString(set)));
     }
 }
 //

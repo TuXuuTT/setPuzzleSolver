@@ -11,6 +11,6 @@ public class CommonPageAsserts {
 
     @Then("^current page title has text (.*)$")
     public void checkUrlContains(String text) {
-        assertThat(commonSteps.getCurrentPageTitle()).as("Home page title does not contain expected text").contains(text);
+        assertThat(commonSteps.isCurrentPageTitleContains(text)).as("Home page title does not contain expected text").isTrue();
     }
 }

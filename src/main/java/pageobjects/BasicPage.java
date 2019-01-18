@@ -31,14 +31,14 @@ public abstract class BasicPage {
     public BasicPage(WebDriver wd) {
         this.wd = wd;
         visibilityWait = new FluentWait<>(getWebDriverCurrent())
-                .withTimeout(Duration.ofSeconds(WAIT_MEDIUM_SECONDS * 10L))
+                .withTimeout(Duration.ofSeconds(WAIT_MEDIUM_SECONDS))
                 .pollingEvery(Duration.ofMillis(POLLING_INTERVAL_MILLIS))
                 .ignoring(NoSuchElementException.class)
                 .ignoring(StaleElementReferenceException.class);
 
         invisibilityWait
                 = new FluentWait<>(getWebDriverCurrent())
-                .withTimeout(Duration.ofSeconds(WAIT_MEDIUM_SECONDS * 10L))
+                .withTimeout(Duration.ofSeconds(WAIT_MEDIUM_SECONDS))
                 .pollingEvery(Duration.ofMillis(POLLING_INTERVAL_MILLIS))
                 .ignoring(NoSuchElementException.class)
                 .ignoring(StaleElementReferenceException.class);
@@ -146,6 +146,15 @@ public abstract class BasicPage {
             nse.printStackTrace();
         }
         return webElement;
+    }
+
+    public void waitForTitleToContain(String text) {
+        try {
+            visibilityWait.until(ExpectedConditions.titleContains(text));
+        } catch (NoSuchElementException nse) {
+            Logger.out.info("Try to wait little more (wait for clickable)");
+            nse.printStackTrace();
+        }
     }
 
     public boolean click(WebElement webElement) {

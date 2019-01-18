@@ -7,8 +7,9 @@ public class BrowserRelatedSteps {
 
     private CommonPage commonPage = new CommonPage(BasicTest.getWd());
 
-    public String getCurrentPageTitle() {
-        return commonPage.getWebDriverCurrent().getTitle();
+    public boolean isCurrentPageTitleContains(String text) {
+        commonPage.waitForTitleToContain(text);
+        return commonPage.getWebDriverCurrent().getTitle().contains(text);
     }
 
     public void openUrl(String url) {
