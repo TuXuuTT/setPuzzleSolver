@@ -9,9 +9,10 @@ import lombok.ToString;
 @Builder
 @ToString
 @EqualsAndHashCode
-public class SetCardDTO {
+public class SetCard {
+    private String className;
     private int shading;
     private int symbol;
     private int color;
-    private int number;
+    private int symbolsNumber;
 }

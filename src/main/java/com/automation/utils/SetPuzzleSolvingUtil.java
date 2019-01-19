@@ -1,37 +1,37 @@
 package com.automation.utils;
 
-import com.automation.dto.SetCardDTO;
+import com.automation.dto.SetCard;
 import com.automation.logger.Logger;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.stream.Collectors;
 
-public class PuzzleImageConverter {
+public class SetPuzzleSolvingUtil {
 
-    private PuzzleImageConverter() {
+    private SetPuzzleSolvingUtil() {
     }
 
-    public static SetCardDTO getCardFromImageNumber(int imageNumber) {
+    public static SetCard getCardObject(String className, int imageNumber) {
         if ((imageNumber < 1) || (imageNumber > 81)) {
             throw new IllegalArgumentException("Tried to create card with imageNumber %s which is out of range");
         }
         imageNumber--;
-        return SetCardDTO.builder()
+        return SetCard.builder()
+                .className(className)
                 .shading((int) Math.floor(((imageNumber % 81) / 27) + 1))
                 .symbol((int) Math.floor(((imageNumber % 27) / 9) + 1))
                 .color((int) Math.floor(((imageNumber % 9) / 3) + 1))
-                .number((int) Math.floor(((imageNumber % 3)) + 1))
+                .symbolsNumber((int) Math.floor(((imageNumber % 3)) + 1))
                 .build();
     }
 
-    private static int getImageNumberFromCard(SetCardDTO card) {
+    private static int getImageNumberFromCard(SetCard card) {
         int imageNumber;
         imageNumber = (card.getShading() - 1) * 27;
         imageNumber += (card.getSymbol() - 1) * 9;
         imageNumber += (card.getColor() - 1) * 3;
-        imageNumber += card.getNumber();
+        imageNumber += card.getSymbolsNumber();
         return imageNumber;
     }
 
@@ -39,9 +39,9 @@ public class PuzzleImageConverter {
         return (((cardAttribute1 == cardAttribute2) && (cardAttribute1 == cardAttribute3)) || ((cardAttribute1 + cardAttribute2 + cardAttribute3) == 6));
     }
 
-    private static boolean isSetValid(SetCardDTO[] threeCardsSet) {
+    private static boolean isSetValid(SetCard[] threeCardsSet) {
         boolean result = false;
-        if (isAttributeValid(threeCardsSet[0].getNumber(), threeCardsSet[1].getNumber(), threeCardsSet[2].getNumber())) {
+        if (isAttributeValid(threeCardsSet[0].getSymbolsNumber(), threeCardsSet[1].getSymbolsNumber(), threeCardsSet[2].getSymbolsNumber())) {
             Logger.out.debug(String.format("Number in set %s is valid", Arrays.toString(threeCardsSet)));
             if (isAttributeValid(threeCardsSet[0].getSymbol(), threeCardsSet[1].getSymbol(), threeCardsSet[2].getSymbol())) {
                 Logger.out.debug(String.format("Symbol in set %s is valid", Arrays.toString(threeCardsSet)));
@@ -58,12 +58,12 @@ public class PuzzleImageConverter {
         return result;
     }
 
-    private static List<SetCardDTO[]> findAllSets(SetCardDTO[] fullSetOfCards) {
-        List<SetCardDTO[]> result = new ArrayList<>();
+    public static List<SetCard[]> findAllSets(SetCard[] fullSetOfCards) {
+        List<SetCard[]> result = new ArrayList<>();
         for (int i = 0; i < fullSetOfCards.length - 2; i++) {
             for (int j = i + 1; j < fullSetOfCards.length - 1; j++) {
                 for (int k = j + 1; k < fullSetOfCards.length; k++) {
-                    SetCardDTO[] threeCardsSet = new SetCardDTO[3];
+                    SetCard[] threeCardsSet = new SetCard[3];
                     threeCardsSet[0] = fullSetOfCards[i];
                     threeCardsSet[1] = fullSetOfCards[j];
                     threeCardsSet[2] = fullSetOfCards[k];
@@ -74,17 +74,6 @@ public class PuzzleImageConverter {
             }
         }
         return result;
-    }
-
-    public static List<int[]> getAllValidSetsAsImageNumbers(int[] imageNumbers) {
-        List<SetCardDTO> fullListOfCards = new ArrayList<>();
-        Arrays.stream(imageNumbers).forEach(number -> fullListOfCards.add(getCardFromImageNumber(number)));
-
-        return findAllSets(fullListOfCards.toArray(new SetCardDTO[0])).stream()
-                .map(setCardDTOS -> Arrays.stream(setCardDTOS)
-                        .mapToInt(PuzzleImageConverter::getImageNumberFromCard).toArray())
-                .peek(set -> Logger.out.info(Arrays.toString(set)))
-                .collect(Collectors.toList());
     }
 }
 //

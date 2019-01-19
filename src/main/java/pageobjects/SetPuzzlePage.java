@@ -8,17 +8,21 @@ import org.openqa.selenium.support.FindBy;
 
 import java.util.List;
 
-@Getter
-public class SetPuzzleHomePage extends BasicPage {
+public class SetPuzzlePage extends BasicPage {
 
+    @Getter
     private By setMessageLabelLocator = By.cssSelector("div.set-messages");
-//    @FindBy(css = "div.set-card-td")
-//    private List<WebElement> allCardsList;
+    private String cardImageCssLocator = "img.%s";
 
+    @Getter
     @FindBy(css = "div.set-card-td img")
     private List<WebElement> allCardsImagesList;
 
-    public SetPuzzleHomePage(WebDriver wd) {
+    public SetPuzzlePage(WebDriver wd) {
         super(wd);
+    }
+
+    public WebElement getCardByClassname(String className) {
+        return getWebDriverCurrent().findElement(By.cssSelector(String.format(cardImageCssLocator, className)));
     }
 }
