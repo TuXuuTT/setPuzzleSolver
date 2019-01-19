@@ -19,37 +19,37 @@ public class SetPuzzleSolvingUtil {
         imageNumber--;
         return SetCard.builder()
                 .className(className)
-                .shading((int) Math.floor(((imageNumber % 81) / 27) + 1))
-                .symbol((int) Math.floor(((imageNumber % 27) / 9) + 1))
-                .color((int) Math.floor(((imageNumber % 9) / 3) + 1))
+                .shading(new SetCard.Shading((int) Math.floor(((imageNumber % 81) / 27) + 1)))
+                .symbol(new SetCard.Symbol((int) Math.floor(((imageNumber % 27) / 9) + 1)))
+                .color(new SetCard.Color((int) Math.floor(((imageNumber % 9) / 3) + 1)))
                 .symbolsNumber((int) Math.floor(((imageNumber % 3)) + 1))
                 .build();
     }
 
     private static int getImageNumberFromCard(SetCard card) {
         int imageNumber;
-        imageNumber = (card.getShading() - 1) * 27;
-        imageNumber += (card.getSymbol() - 1) * 9;
-        imageNumber += (card.getColor() - 1) * 3;
+        imageNumber = (card.getShading().getCode() - 1) * 27;
+        imageNumber += (card.getSymbol().getCode() - 1) * 9;
+        imageNumber += (card.getColor().getCode() - 1) * 3;
         imageNumber += card.getSymbolsNumber();
         return imageNumber;
     }
 
-    private static boolean isAttributeValid(int cardAttribute1, int cardAttribute2, int cardAttribute3) {
-        return (((cardAttribute1 == cardAttribute2) && (cardAttribute1 == cardAttribute3)) || ((cardAttribute1 + cardAttribute2 + cardAttribute3) == 6));
+    private static boolean isAttributeValid(int cardAttributeCode1, int cardAttributeCode2, int cardAttributeCode3) {
+        return (((cardAttributeCode1 == cardAttributeCode2) && (cardAttributeCode1 == cardAttributeCode3)) || ((cardAttributeCode1 + cardAttributeCode2 + cardAttributeCode3) == 6));
     }
 
     private static boolean isSetValid(SetCard[] threeCardsSet) {
         boolean result = false;
         if (isAttributeValid(threeCardsSet[0].getSymbolsNumber(), threeCardsSet[1].getSymbolsNumber(), threeCardsSet[2].getSymbolsNumber())) {
             Logger.out.debug(String.format("Number in set %s is valid", Arrays.toString(threeCardsSet)));
-            if (isAttributeValid(threeCardsSet[0].getSymbol(), threeCardsSet[1].getSymbol(), threeCardsSet[2].getSymbol())) {
+            if (isAttributeValid(threeCardsSet[0].getSymbol().getCode(), threeCardsSet[1].getSymbol().getCode(), threeCardsSet[2].getSymbol().getCode())) {
                 Logger.out.debug(String.format("Symbol in set %s is valid", Arrays.toString(threeCardsSet)));
-                if (isAttributeValid(threeCardsSet[0].getShading(), threeCardsSet[1].getShading(), threeCardsSet[2].getShading())) {
+                if (isAttributeValid(threeCardsSet[0].getShading().getCode(), threeCardsSet[1].getShading().getCode(), threeCardsSet[2].getShading().getCode())) {
                     Logger.out.debug(String.format("Shading in set %s is valid", Arrays.toString(threeCardsSet)));
-                    if (isAttributeValid(threeCardsSet[0].getColor(), threeCardsSet[1].getColor(), threeCardsSet[2].getColor())) {
+                    if (isAttributeValid(threeCardsSet[0].getColor().getCode(), threeCardsSet[1].getColor().getCode(), threeCardsSet[2].getColor().getCode())) {
                         Logger.out.debug(String.format("Color in set %s is valid", Arrays.toString(threeCardsSet)));
-                        Logger.out.info(String.format("Set %s is valid", Arrays.toString(threeCardsSet)));
+                        Logger.out.info(String.format("Set is valid: %s", Arrays.toString(threeCardsSet)));
                         result = true;
                     }
                 }
@@ -76,15 +76,3 @@ public class SetPuzzleSolvingUtil {
         return result;
     }
 }
-//
-//            Symbol.SWIGGLE = 1;
-//            Symbol.DIAMOND = 2;
-//            Symbol.OVAL    = 3;
-//
-//            Color.RED = 1;
-//            Color.PURPLE = 2;
-//            Color.GREEN = 3;
-//
-//            Shape.SOLID = 1;
-//            Shape.LINED = 2;
-//            Shape.EMPTY = 3;
