@@ -20,7 +20,6 @@
 
         <selenium.version>3.14.0</selenium.version>
 
-        <allure.version>2.8.1</allure.version>
         <aspectj.version>1.9.1</aspectj.version>
         <lombok.version>1.18.4</lombok.version>
 
@@ -48,11 +47,6 @@
             <groupId>org.testng</groupId>
             <artifactId>testng</artifactId>
             <version>${testng.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>io.qameta.allure</groupId>
-            <artifactId>allure-testng</artifactId>
-            <version>${allure.version}</version>
         </dependency>
         <dependency>
             <groupId>info.cukes</groupId>
@@ -85,7 +79,6 @@
             <version>${log4j.version}</version>
         </dependency>
     </dependencies>
-
     <build>
         <plugins>
             <plugin>
@@ -106,24 +99,11 @@
                 <artifactId>maven-surefire-plugin</artifactId>
                 <version>${surefire.plugin.version}</version>
                 <configuration>
-                    <systemPropertyVariables>
-                        <log4j.configurationFile>${log4jConfFile}</log4j.configurationFile>
-                    </systemPropertyVariables>
                     <suiteXmlFiles>
                         <suiteXmlFile>src/test/resources/suite/${testng.suitexmlfile}</suiteXmlFile>
                     </suiteXmlFiles>
                     <testFailureIgnore>false</testFailureIgnore>
-                    <argLine>
-                        -javaagent:"${settings.localRepository}/org/aspectj/aspectjweaver/${aspectj.version}/aspectjweaver-${aspectj.version}.jar"
-                    </argLine>
                 </configuration>
-                <dependencies>
-                    <dependency>
-                        <groupId>org.aspectj</groupId>
-                        <artifactId>aspectjweaver</artifactId>
-                        <version>1.9.1</version>
-                    </dependency>
-                </dependencies>
             </plugin>
         </plugins>
     </build>

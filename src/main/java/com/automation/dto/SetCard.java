@@ -113,17 +113,4 @@ public class SetCard {
                     '}';
         }
     }
-
-    //
-//            Symbol.SWIGGLE = 1;
-//            Symbol.DIAMOND = 2;
-//            Symbol.OVAL    = 3;
-//
-//            Color.RED = 1;
-//            Color.PURPLE = 2;
-//            Color.GREEN = 3;
-//
-//            shading.SOLID = 1;
-//            shading.LINED = 2;
-//            shading.EMPTY = 3;
 }

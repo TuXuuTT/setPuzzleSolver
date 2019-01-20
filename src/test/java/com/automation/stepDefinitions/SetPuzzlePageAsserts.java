@@ -1,5 +1,5 @@
 package com.automation.stepDefinitions;
 
-public class SetPuzzleHomeAsserts {
+public class SetPuzzlePageAsserts {
 
 }

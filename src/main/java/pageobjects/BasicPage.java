@@ -2,16 +2,12 @@ package pageobjects;
 
 import com.automation.environment.EnvironmentConfigurator;
 import com.automation.logger.Logger;
-import io.qameta.allure.Step;
 import org.openqa.selenium.By;
-import org.openqa.selenium.Dimension;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.NoSuchElementException;
-import org.openqa.selenium.Point;
 import org.openqa.selenium.StaleElementReferenceException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.pagefactory.AjaxElementLocatorFactory;
 import org.openqa.selenium.support.ui.ExpectedConditions;
@@ -30,7 +26,7 @@ public abstract class BasicPage {
 
     public BasicPage(WebDriver wd) {
         this.wd = wd;
-        visibilityWait = new FluentWait<>(getWebDriverCurrent())
+        visibilityWait = new FluentWait<>(getWebDriverCurrent()) //note: awaitility lib has more flexible waits and can be used instead of native Selenium waits in real life cases
                 .withTimeout(Duration.ofSeconds(WAIT_MEDIUM_SECONDS))
                 .pollingEvery(Duration.ofMillis(POLLING_INTERVAL_MILLIS))
                 .ignoring(NoSuchElementException.class)
@@ -52,16 +48,6 @@ public abstract class BasicPage {
 
     public WebDriver getWebDriverCurrent() {
         return wd;
-    }
-
-    public void setWebDriverWindowSize(int width, int height) {
-        wd.manage().window().setPosition(new Point(0, 0));
-        wd.manage().window().setSize(new Dimension(width, height));
-        try {
-            Thread.sleep(2000L);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
     }
 
     public void loadApp() {
@@ -99,12 +85,6 @@ public abstract class BasicPage {
             result[0] = ("complete").equals(executeJS("return document.readyState").toString());
             return result[0];
         });
-    }
-
-    public void sendKeys(final WebElement webElement, String text) {
-        waitForClickable(webElement);
-        webElement.clear();
-        webElement.sendKeys(text);
     }
 
     public WebElement waitForVisibility(WebElement webElement) {
@@ -180,13 +160,6 @@ public abstract class BasicPage {
         }
     }
 
-    public void moveMouseCursorToWebElement(WebElement webElement) {
-//        scrollToElement(webElement);
-        waitForClickable(webElement);
-        Actions action = new Actions(getWebDriverCurrent());
-        action.moveToElement(webElement).perform();
-    }
-
     public Object executeJS(final String script, final Object... params) {
         return ((JavascriptExecutor) getWebDriverCurrent()).executeScript(script, params);
     }
@@ -197,22 +170,7 @@ public abstract class BasicPage {
     }
 
 
-    @Step
     public void refreshPage() {
         getWebDriverCurrent().navigate().refresh();
-    }
-
-    public void waitForElementStopMoving(WebElement element) {
-        Point a;
-        Point b;
-        do {
-            a = element.getLocation();
-            try {
-                Thread.sleep(500L);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-            b = element.getLocation();
-        } while (!a.equals(b));
     }
 }

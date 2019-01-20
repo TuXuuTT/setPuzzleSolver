@@ -36,7 +36,9 @@ public class SetPuzzleSolvingUtil {
     }
 
     private static boolean isAttributeValid(int cardAttributeCode1, int cardAttributeCode2, int cardAttributeCode3) {
-        return (((cardAttributeCode1 == cardAttributeCode2) && (cardAttributeCode1 == cardAttributeCode3)) || ((cardAttributeCode1 + cardAttributeCode2 + cardAttributeCode3) == 6));
+        return (((cardAttributeCode1 == cardAttributeCode2)
+                && (cardAttributeCode1 == cardAttributeCode3))
+                || ((cardAttributeCode1 + cardAttributeCode2 + cardAttributeCode3) == 6));
     }
 
     private static boolean isSetValid(SetCard[] threeCardsSet) {

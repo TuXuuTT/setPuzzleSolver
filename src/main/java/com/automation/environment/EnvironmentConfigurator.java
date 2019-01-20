@@ -13,10 +13,10 @@ public class EnvironmentConfigurator {
 
     private EnvironmentConfigurator() throws IOException {
         ClassLoader loader = Thread.currentThread().getContextClassLoader();
-        InputStream i18nStream = loader.getResourceAsStream("env.properties");
+        InputStream resource = loader.getResourceAsStream("env.properties");
         try {
-            properties.load(i18nStream);
-            i18nStream.close();
+            properties.load(resource);
+            resource.close();
         } catch (IOException e) {
             Logger.out.error("", e);
         }
