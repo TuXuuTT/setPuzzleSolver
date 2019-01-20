@@ -2,6 +2,7 @@ package com.automation.steps;
 
 import com.automation.BasicTest;
 import com.automation.dto.SetCard;
+import com.automation.logger.Logger;
 import pageobjects.SetPuzzlePage;
 
 import java.util.Arrays;
@@ -23,11 +24,15 @@ public class SetPuzzlePageActions {
             if (i < allValidSets.size() - 1) {
                 homePage.waitForTextToBePresentIn(homePage.getSetMessageLabelLocator(), "GREAT!");
             }
+            Logger.out.info("Set is completed");
             homePage.waitForInvisibility(homePage.getSetMessageLabelLocator());
         }
     }
 
     public void clickValidSet(SetCard[] setCards) {
-        Arrays.stream(setCards).forEach(card -> homePage.click(homePage.getCardByClassname(card.getClassName())));
+        Arrays.stream(setCards).forEach(card -> {
+            homePage.click(homePage.getCardByClassname(card.getClassName()));
+            Logger.out.info(String.format("Clicking card %s", card.getClassName()));
+        });
     }
 }

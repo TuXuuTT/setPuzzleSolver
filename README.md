@@ -8,11 +8,15 @@ To simply run test suite just execute maven goal:
 `mvn clean compile`
 and
 `mvn test`
+or
+`mvn clean install` to execute tests immediately
 
 If running from IDE, please use for your run configuration _testng_dflt.xml_ suite file or _TestSetPuzzleSmokeTestRunner_ from _"com.automation.testCucmbrRunners"_ folder.
 
 Do not use direct run configuration against feature file, because it will not apply predefined parameters for webDriver launch from _BasicTest.java_ class.
 In any case, one runner corresponds exactly to one feature file, so this should not make any inconvenience.
+
+Also default cucumber report will be generated in 'build' folder
 
 #### Notes:
 This implementation was tested on Windows OS: chromedriver  2.45 and Chrome browser 71.0. Newer versions of browsers may cause issues with WebDriver.
