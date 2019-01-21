@@ -168,12 +168,6 @@ public abstract class BasicPage {
         executeJS("arguments[0].scrollIntoView(true);", we);
         return we;
     }
-    public WebElement scrollToElement(By locator) {
-        WebElement we = getWebDriverCurrent().findElement(locator);
-        executeJS("arguments[0].scrollIntoView(true);", we);
-        return we;
-    }
-
 
     public void refreshPage() {
         getWebDriverCurrent().navigate().refresh();

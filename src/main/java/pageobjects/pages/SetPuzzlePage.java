@@ -20,8 +20,8 @@ public class SetPuzzlePage extends BasicPage {
     private List<WebElement> allCardsImagesList;
 
     @Getter
-    @FindBy(css = "form[name='card']")
-    private WebElement cardsTableForm;
+    @FindBy(css = "center.set-game-wrapper")
+    private WebElement cardsTableWrapper;
 
     public SetPuzzlePage(WebDriver webDriver) {
         super(webDriver);
