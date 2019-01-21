@@ -8,11 +8,11 @@ import java.util.stream.Collectors;
 
 public final class OSUtils {
 
+    private OSUtils() {
+    }
 
-    private static boolean runCommand(String... cmds) throws IOException, InterruptedException {
-        if (Logger.out.isDebugEnabled()) {
-            Logger.out.debug("Running command: '{}'", Arrays.stream(cmds).collect(Collectors.joining(" ")));
-        }
+    protected static boolean runCommand(String... cmds) throws IOException, InterruptedException {
+        Logger.out.debug("Running command: '{}'", Arrays.stream(cmds).collect(Collectors.joining(" ")));
         return Runtime.getRuntime().exec(cmds).waitFor() == 0;
     }
 

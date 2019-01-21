@@ -9,6 +9,7 @@ import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.remote.RemoteWebDriver;
 
 import java.awt.*;
+import java.io.IOException;
 import java.net.MalformedURLException;
 
 import static java.lang.Thread.currentThread;
@@ -61,11 +62,17 @@ public class BrowserClient {
     private RemoteWebDriver startChrome() throws MalformedURLException {
         OSUtils.killProcess("chromedriver.exe");
         if (System.getProperty("webdriver.chrome.driver") == null) {
-            String chromeDriverName;
-            if (OSUtils.isWindows()) {
-                chromeDriverName = "chromedriver.exe";
-            } else chromeDriverName = "chromedriver";
+            String chromeDriverName = "chromedriver.exe";
             String chromedriverPath = currentThread().getContextClassLoader().getResource(chromeDriverName).getPath();
+            if (!OSUtils.isWindows()) {
+                chromeDriverName = "chromedriver";
+                chromedriverPath = currentThread().getContextClassLoader().getResource(chromeDriverName).getPath();
+                try {
+                    OSUtils.runCommand("chmod u+x " + chromedriverPath);
+                } catch (IOException | InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }
             Logger.out.warn("webdriver.chrome.driver is not set. will now try to use [" + chromedriverPath + "]");
             System.setProperty("webdriver.chrome.driver", chromedriverPath);
         }
