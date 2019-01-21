@@ -22,20 +22,20 @@ public class BrowserClient {
         environmentConfigurator = EnvironmentConfigurator.getInstance();
     }
 
-    public static void maximizeWindow(WebDriver wd) {
+    public static void maximizeWindow(WebDriver webDriver) {
         if (!OSUtils.isWindows()) {
             try {
                 java.awt.Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
                 Point position = new Point(0, 0);
-                wd.manage().window().setPosition(position);
+                webDriver.manage().window().setPosition(position);
                 Dimension maximizedScreenSize =
                         new Dimension((int) screenSize.getWidth(), (int) screenSize.getHeight());
-                wd.manage().window().setSize(maximizedScreenSize);
+                webDriver.manage().window().setSize(maximizedScreenSize);
             } catch (HeadlessException e) {
                 Logger.out.warn("GraphicsEnvironment.isHeadless(), can't maximize screen by getting actual resolution");
             }
         } else {
-            wd.manage().window().maximize();
+            webDriver.manage().window().maximize();
         }
     }
 

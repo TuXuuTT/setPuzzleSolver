@@ -20,13 +20,13 @@ import java.time.Duration;
 public abstract class BasicPage {
     public static final int WAIT_MEDIUM_SECONDS = 30;
     public static final int POLLING_INTERVAL_MILLIS = 750;
-    private final WebDriver wd;
+    private final WebDriver webDriver;
     private Wait<WebDriver> visibilityWait;
     private Wait<WebDriver> invisibilityWait;
 
-    public BasicPage(WebDriver wd) {
-        this.wd = wd;
-        visibilityWait = new FluentWait<>(getWebDriverCurrent()) //note: awaitility lib has more flexible waits and can be used instead of native Selenium waits in real life cases
+    public BasicPage(WebDriver webDriver) {
+        this.webDriver = webDriver;
+        visibilityWait = new FluentWait<>(getWebDriverCurrent()) //note: awaitility lib has more flexible waits and can be used instead of native Selenium waits in different cases
                 .withTimeout(Duration.ofSeconds(WAIT_MEDIUM_SECONDS))
                 .pollingEvery(Duration.ofMillis(POLLING_INTERVAL_MILLIS))
                 .ignoring(NoSuchElementException.class)
@@ -39,7 +39,7 @@ public abstract class BasicPage {
                 .ignoring(NoSuchElementException.class)
                 .ignoring(StaleElementReferenceException.class);
 
-        PageFactory.initElements(new AjaxElementLocatorFactory(wd, WAIT_MEDIUM_SECONDS), this);
+        PageFactory.initElements(new AjaxElementLocatorFactory(webDriver, WAIT_MEDIUM_SECONDS), this);
     }
 
     public static String getAppURL() {
@@ -47,7 +47,7 @@ public abstract class BasicPage {
     }
 
     public WebDriver getWebDriverCurrent() {
-        return wd;
+        return webDriver;
     }
 
     public void loadApp() {
@@ -57,7 +57,7 @@ public abstract class BasicPage {
 
     public void loadUrl(String url) {
         Logger.out.info("Loading page: {}", url);
-        wd.get(url);
+        webDriver.get(url);
     }
 
 

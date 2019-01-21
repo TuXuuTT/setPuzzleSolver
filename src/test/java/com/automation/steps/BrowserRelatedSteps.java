@@ -1,11 +1,11 @@
 package com.automation.steps;
 
 import com.automation.BasicTest;
-import pageobjects.CommonPage;
+import pageobjects.pages.CommonPage;
 
 public class BrowserRelatedSteps {
 
-    private CommonPage commonPage = new CommonPage(BasicTest.getWd());
+    private CommonPage commonPage = new CommonPage(BasicTest.getWebDriver());
 
     public boolean isCurrentPageTitleContains(String text) {
         commonPage.waitForTitleToContain(text);

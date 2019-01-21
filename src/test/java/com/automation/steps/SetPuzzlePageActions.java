@@ -3,7 +3,7 @@ package com.automation.steps;
 import com.automation.BasicTest;
 import com.automation.dto.SetCard;
 import com.automation.logger.Logger;
-import pageobjects.SetPuzzlePage;
+import pageobjects.pages.SetPuzzlePage;
 
 import java.util.Arrays;
 import java.util.List;
@@ -11,7 +11,7 @@ import java.util.List;
 import static com.automation.utils.SetPuzzleSolvingUtil.findAllSets;
 
 public class SetPuzzlePageActions {
-    private SetPuzzlePage homePage = new SetPuzzlePage(BasicTest.getWd());
+    private SetPuzzlePage homePage = new SetPuzzlePage(BasicTest.getWebDriver());
 
     public void openHomePage() {
         homePage.loadApp();

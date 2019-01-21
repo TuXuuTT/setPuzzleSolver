@@ -1,10 +1,11 @@
-package pageobjects;
+package pageobjects.pages;
 
 import lombok.Getter;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
+import pageobjects.BasicPage;
 
 import java.util.List;
 
@@ -18,8 +19,8 @@ public class SetPuzzlePage extends BasicPage {
     @FindBy(css = "div.set-card-td img")
     private List<WebElement> allCardsImagesList;
 
-    public SetPuzzlePage(WebDriver wd) {
-        super(wd);
+    public SetPuzzlePage(WebDriver webDriver) {
+        super(webDriver);
     }
 
     public WebElement getCardByClassname(String className) {

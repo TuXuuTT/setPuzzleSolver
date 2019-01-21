@@ -19,6 +19,6 @@ In any case, one runner corresponds exactly to one feature file, so this should 
 Also default cucumber report will be generated in 'build' folder
 
 #### Notes:
-This implementation was tested on Windows OS: chromedriver  2.45 and Chrome browser 71.0. Newer versions of browsers may cause issues with WebDriver.
+This implementation was tested on Windows OS: chromedriver 2.45 and Chrome browser 71.0. Newer versions of browsers may cause issues with WebDriver.
 
 Thanks

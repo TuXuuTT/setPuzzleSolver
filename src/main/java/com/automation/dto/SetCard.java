@@ -42,6 +42,8 @@ public class SetCard {
                 case 3:
                     name = "EMPTY";
                     break;
+                default:
+                    throw new IllegalArgumentException("Unsupported attribute code: " + code);
             }
         }
 
@@ -71,6 +73,8 @@ public class SetCard {
                 case 3:
                     name = "OVAL";
                     break;
+                default:
+                    throw new IllegalArgumentException("Unsupported attribute code: " + code);
             }
         }
 

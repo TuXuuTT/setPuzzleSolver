@@ -2,9 +2,10 @@ package com.automation.steps;
 
 import com.automation.BasicTest;
 import com.automation.dto.SetCard;
+import com.automation.logger.Logger;
 import com.automation.utils.SetPuzzleSolvingUtil;
 import org.openqa.selenium.WebElement;
-import pageobjects.SetPuzzlePage;
+import pageobjects.pages.SetPuzzlePage;
 
 import java.util.List;
 import java.util.regex.Matcher;
@@ -13,7 +14,7 @@ import java.util.stream.Collectors;
 
 public class SetPuzzlePageStates {
 
-    private SetPuzzlePage homePage = new SetPuzzlePage(BasicTest.getWd());
+    private SetPuzzlePage homePage = new SetPuzzlePage(BasicTest.getWebDriver());
 
     public List<SetCard> getAllTodaysCards() {
         return homePage.getAllCardsImagesList().stream()
@@ -27,8 +28,11 @@ public class SetPuzzlePageStates {
         Matcher m = pattern.matcher(imageLink);
         if (m.find()) {
             return Integer.parseInt(m.group(0));
-        } else
-            throw new IllegalArgumentException(String.format("Error parsing image number from %s", imageLink));
+        } else {
+            String errorMessage = String.format("Error parsing image number from %s", imageLink);
+            Logger.out.error(errorMessage);
+            throw new IllegalArgumentException(errorMessage);
+        }
     }
 
     private String getClassNameFromCard(WebElement cardImage) {

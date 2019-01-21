@@ -15,12 +15,12 @@ import java.net.MalformedURLException;
 public abstract class BasicTest extends AbstractTestNGCucumberTests {
 
     @Getter
-    private static RemoteWebDriver wd;
+    private static RemoteWebDriver webDriver;
 
     @BeforeClass(alwaysRun = true)
     public void startUp() {
         try {
-            wd = new BrowserClient().getDriver(EnvironmentConfigurator.getInstance().getBrowserClient());
+            webDriver = new BrowserClient().getDriver(EnvironmentConfigurator.getInstance().getBrowserClient());
         } catch (MalformedURLException e) {
             e.printStackTrace();
             Logger.out.error("Error during driver start up", e);
@@ -29,8 +29,8 @@ public abstract class BasicTest extends AbstractTestNGCucumberTests {
 
     @AfterClass(alwaysRun = true)
     public void tierDown() {
-        if (wd != null) {
-            wd.quit();
+        if (webDriver != null) {
+            webDriver.quit();
         }
     }
 

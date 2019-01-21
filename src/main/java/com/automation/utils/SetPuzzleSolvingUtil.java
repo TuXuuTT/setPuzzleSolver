@@ -14,7 +14,9 @@ public class SetPuzzleSolvingUtil {
 
     public static SetCard getCardObject(String className, int imageNumber) {
         if ((imageNumber < 1) || (imageNumber > 81)) {
-            throw new IllegalArgumentException("Tried to create card with imageNumber %s which is out of range");
+            String errorMessage = String.format("Tried to create card with imageNumber %s which is out of range", imageNumber);
+            Logger.out.error(errorMessage);
+            throw new IllegalArgumentException(errorMessage);
         }
         imageNumber--;
         return SetCard.builder()

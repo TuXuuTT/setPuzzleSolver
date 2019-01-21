@@ -8,7 +8,7 @@ import java.util.Properties;
 
 public class EnvironmentConfigurator {
 
-    private static volatile EnvironmentConfigurator environmentConfigurator;
+    private static EnvironmentConfigurator environmentConfigurator;
     private static Properties properties = new Properties();
 
     private EnvironmentConfigurator() throws IOException {

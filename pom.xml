@@ -107,25 +107,4 @@
             </plugin>
         </plugins>
     </build>
-
-    <!--These properties variables will be set only if one of the profiles activated. All default property values are set in env.properties file. Any of them can be overridden if specified as command line argument-->
-    <!-- In order to execute maven goal for one of profiles you should specify maven profile during run, to set values to non-default variables.
-    Without specifying profile you will have to manually set -Dkey=value for each missing profile-specific variable. -->
-    <profiles>
-        <profile>
-            <id>qaSmoke_env-envName</id>
-            <activation>
-                <property>
-                    <name>env</name>
-                    <value>envName</value>
-                </property>
-            </activation>
-            <properties>
-                <app.url>placeHolder</app.url>
-                <user.login>placeHolder</user.login>
-                <user.password>placeHolder</user.password>
-                <testng.suitexmlfile>placeHolder</testng.suitexmlfile>
-            </properties>
-        </profile>
-    </profiles>
 </project>
