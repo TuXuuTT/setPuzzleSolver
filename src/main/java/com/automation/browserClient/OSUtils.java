@@ -11,9 +11,13 @@ public final class OSUtils {
     private OSUtils() {
     }
 
-    protected static boolean runCommand(String... cmds) throws IOException, InterruptedException {
+    protected static boolean runCommandWithArgs(String... cmds) throws IOException, InterruptedException {
         Logger.out.debug("Running command: '{}'", Arrays.stream(cmds).collect(Collectors.joining(" ")));
         return Runtime.getRuntime().exec(cmds).waitFor() == 0;
+    }
+
+    protected static void runCommand(String command) throws IOException {
+        Runtime.getRuntime().exec(command);
     }
 
     public static boolean isWindows() {
@@ -26,7 +30,7 @@ public final class OSUtils {
             return;
         }
         try {
-            runCommand("taskkill", "/F", "/T", "/IM", name);
+            runCommandWithArgs("taskkill", "/F", "/T", "/IM", name);
         } catch (IOException | InterruptedException e) {
             Logger.out.trace(e.getMessage(), e);
         }

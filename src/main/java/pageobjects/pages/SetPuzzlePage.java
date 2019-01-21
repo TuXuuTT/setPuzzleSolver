@@ -19,6 +19,10 @@ public class SetPuzzlePage extends BasicPage {
     @FindBy(css = "div.set-card-td img")
     private List<WebElement> allCardsImagesList;
 
+    @Getter
+    @FindBy(css = "form[name='card']")
+    private WebElement cardsTableForm;
+
     public SetPuzzlePage(WebDriver webDriver) {
         super(webDriver);
     }

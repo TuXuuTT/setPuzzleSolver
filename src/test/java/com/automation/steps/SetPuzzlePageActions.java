@@ -18,6 +18,7 @@ public class SetPuzzlePageActions {
     }
 
     public void clickThroughAllValidSets(List<SetCard> allTodaysCards) {
+        homePage.scrollToElement(homePage.getSetMessageLabelLocator());
         List<SetCard[]> allValidSets = findAllSets(allTodaysCards.toArray(new SetCard[0]));
         for (int i = 0; i < allValidSets.size(); i++) {
             clickValidSet(allValidSets.get(i));

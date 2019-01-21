@@ -56,8 +56,7 @@ public class BrowserClient {
     }
 
     /**
-     * Launches Chrome natively or on the remote machine according to settings
-     * Old fashioned way, need to be refactored according to latest drivers and Selenium changes.
+     * Launches Chrome. Forcibly make chromedriver for mac executable, to avoid IllegalStateException: The driver is not executable
      */
     private RemoteWebDriver startChrome() throws MalformedURLException {
         OSUtils.killProcess("chromedriver.exe");
@@ -69,7 +68,7 @@ public class BrowserClient {
                 chromedriverPath = currentThread().getContextClassLoader().getResource(chromeDriverName).getPath();
                 try {
                     OSUtils.runCommand("chmod u+x " + chromedriverPath);
-                } catch (IOException | InterruptedException e) {
+                } catch (IOException e) {
                     e.printStackTrace();
                 }
             }
